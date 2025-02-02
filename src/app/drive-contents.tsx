@@ -8,7 +8,7 @@ import type { files, folders } from "~/server/db/schema";
 
 export default function DriveContents(props: {
   files: (typeof files.$inferSelect)[];
-  folders: (typeof folders.$inferInsert)[];
+  folders: (typeof folders.$inferSelect)[];
 }) {
   const [currentFolder, setCurrentFolder] = useState<number>(1);
 
@@ -24,7 +24,7 @@ export default function DriveContents(props: {
       const folder = props.folders.find((folder) => folder.id === currentId);
       if (folder) {
         breadcrumbs.unshift(folder);
-        currentId = folder.parent ?? "root";
+        currentId = folder.parent ?? 1;
       } else {
         break;
       }

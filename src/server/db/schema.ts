@@ -19,13 +19,13 @@ export const createTable = singlestoreTableCreator(
 export const files = createTable(
   "files_table",
   {
-    id: bigint("id", { mode: "bigint", unsigned: true })
+    id: bigint("id", { mode: "number", unsigned: true })
       .primaryKey()
       .autoincrement(),
     name: text("name").notNull(),
-    size: bigint("size", { mode: "bigint", unsigned: true }).notNull(),
+    size: bigint("size", { mode: "number", unsigned: true }).notNull(),
     url: text("url").notNull(),
-    parent: bigint("parent", { mode: "bigint", unsigned: true }).notNull(),
+    parent: bigint("parent", { mode: "number", unsigned: true }).notNull(),
   },
   (t) => {
     return [index("idx_parent").on(t.parent)];
@@ -35,11 +35,11 @@ export const files = createTable(
 export const folders = createTable(
   "folders_table",
   {
-    id: bigint("id", { mode: "bigint", unsigned: true })
+    id: bigint("id", { mode: "number", unsigned: true })
       .primaryKey()
       .autoincrement(),
     name: text("name").notNull(),
-    parent: bigint("parent", { mode: "bigint", unsigned: true }),
+    parent: bigint("parent", { mode: "number", unsigned: true }),
   },
   (t) => {
     return [index("idx_parent").on(t.parent)];
