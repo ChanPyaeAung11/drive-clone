@@ -6,7 +6,6 @@ import { PostHogProvider as PHProvider } from "posthog-js/react";
 import { useEffect } from "react";
 import { env } from "~/env";
 import SuspendedPostHogPageView from "./pageview-tracker";
-import dynamicLoader from "next/dynamic";
 
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
