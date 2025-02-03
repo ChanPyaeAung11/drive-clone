@@ -5,14 +5,15 @@
 - [x] Set up database and data model
 - [x] Move folder open state to URL
 - [x] Add auth
-- [ ] Add file uploading
+- [x] Add file uploading
 - [ ] Add analytics
 
-## 02-02-2025
+## 02-03-2025
 
-- [x] Change folders to link components, remove all client state
-- [x] Clean up db and data fetching patterns
 - [ ] Real homepage
+- [ ] Upload files to the right folder
+- [ ] Delete files button
+- [ ] ALlow files that aren't images to be uploaded
 - [Next.js](https://nextjs.org)
 - [Drizzle](https://orm.drizzle.team)
 - [Tailwind CSS](https://tailwindcss.com)
