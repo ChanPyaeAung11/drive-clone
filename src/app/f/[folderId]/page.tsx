@@ -5,11 +5,7 @@ import {
 import { db } from "~/server/db";
 import DriveContents from "../../drive-contents";
 import { eq } from "drizzle-orm";
-import {
-  getAllParentsForFolder,
-  getFiles,
-  getFolders,
-} from "~/server/db/queries";
+import { QUERIES } from "~/server/db/queries";
 
 export default async function GoogleDriveClone(props: {
   params: Promise<{ folderId: string }>; // since folderId is diff depend on users, make it a promise
@@ -22,9 +18,9 @@ export default async function GoogleDriveClone(props: {
 
   // try catch wrap this
   const [folders, files, parents] = await Promise.all([
-    getFolders(parsedFolderId),
-    getFiles(parsedFolderId),
-    getAllParentsForFolder(parsedFolderId),
+    QUERIES.getFolders(parsedFolderId),
+    QUERIES.getFiles(parsedFolderId),
+    QUERIES.getAllParentsForFolder(parsedFolderId),
   ]);
   return <DriveContents files={files} folders={folders} parents={parents} />;
 }
