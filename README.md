@@ -7,14 +7,9 @@
 - [x] Add auth
 - [x] Add file uploading
 - [ ] Add analytics
+- [ ] Add delete
+- [ ] Real homepage + onboarding
 
-## 02-03-2025
-
-- [ ] Real homepage
-- [x] Upload files to the right folder
-- [ ] Delete files button
-- [x] ALlow files that aren't images to be uploaded
-- [x] Add ownership to files and folders
 - [Next.js](https://nextjs.org)
 - [Drizzle](https://orm.drizzle.team)
 - [Tailwind CSS](https://tailwindcss.com)
