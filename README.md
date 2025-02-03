@@ -13,7 +13,7 @@
 - [ ] Real homepage
 - [x] Upload files to the right folder
 - [ ] Delete files button
-- [ ] ALlow files that aren't images to be uploaded
+- [x] ALlow files that aren't images to be uploaded
 - [x] Add ownership to files and folders
 - [Next.js](https://nextjs.org)
 - [Drizzle](https://orm.drizzle.team)
