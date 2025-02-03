@@ -11,10 +11,10 @@
 ## 02-03-2025
 
 - [ ] Real homepage
-- [ ] Upload files to the right folder
+- [x] Upload files to the right folder
 - [ ] Delete files button
 - [ ] ALlow files that aren't images to be uploaded
-- [ ] Add ownership to files and folders
+- [x] Add ownership to files and folders
 - [Next.js](https://nextjs.org)
 - [Drizzle](https://orm.drizzle.team)
 - [Tailwind CSS](https://tailwindcss.com)

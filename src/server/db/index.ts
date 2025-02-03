@@ -29,5 +29,5 @@ if (env.NODE_ENV !== "production") globalForDb.conn = conn;
 conn.addListener("error", (err) => {
   console.error("Database connection error: ", err);
 });
-
+// drizzle checks the object and figure out which are table defintions and ignores others
 export const db = drizzle(conn, { schema });
