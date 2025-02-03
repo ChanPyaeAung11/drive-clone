@@ -6,6 +6,24 @@ import { db } from "~/server/db";
 import DriveContents from "../../drive-contents";
 import { eq } from "drizzle-orm";
 
+async function getAllParents(folderId: number) {
+  const parents = [];
+  let currentId: number | null = folderId;
+  while (currentId !== null) {
+    const folder = await db
+      .selectDistinct()
+      .from(foldersSchema)
+      .where(eq(foldersSchema.id, currentId));
+
+    if (!folder[0]) {
+      throw new Error("Parent folder not found");
+    }
+    parents.unshift(folder[0]);
+    currentId = folder[0]?.parent;
+  }
+  return parents;
+}
+
 export default async function GoogleDriveClone(props: {
   params: Promise<{ folderId: string }>; // since folderId is diff depend on users, make it a promise
 }) {
@@ -14,13 +32,23 @@ export default async function GoogleDriveClone(props: {
   if (isNaN(parsedFolderId)) return <div> Invalid Folder Id</div>;
 
   console.log(params.folderId);
-  const files = await db
-    .select()
-    .from(filesSchema)
-    .where(eq(filesSchema.parent, parsedFolderId));
-  const folders = await db
+
+  const foldersPromise = db
     .select()
     .from(foldersSchema)
     .where(eq(foldersSchema.parent, parsedFolderId));
-  return <DriveContents files={files} folders={folders} />;
+
+  const filesPromise = db
+    .select()
+    .from(filesSchema)
+    .where(eq(filesSchema.parent, parsedFolderId));
+
+  const parentsPromise = getAllParents(parsedFolderId);
+  // try catch wrap this
+  const [folders, files, parents] = await Promise.all([
+    foldersPromise,
+    filesPromise,
+    parentsPromise,
+  ]);
+  return <DriveContents files={files} folders={folders} parents={parents} />;
 }
