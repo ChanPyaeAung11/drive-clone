@@ -16,7 +16,7 @@ import {
 export const createTable = singlestoreTableCreator(
   (name) => `drive-clone_${name}`,
 );
-export const files = createTable(
+export const files_table = createTable(
   "files_table",
   {
     id: bigint("id", { mode: "number", unsigned: true })
@@ -32,7 +32,7 @@ export const files = createTable(
   },
 );
 
-export const folders = createTable(
+export const folders_table = createTable(
   "folders_table",
   {
     id: bigint("id", { mode: "number", unsigned: true })
