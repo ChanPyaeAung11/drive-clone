@@ -13,9 +13,8 @@ export default function DriveContents(props: {
   folders: (typeof folders_table.$inferSelect)[];
   parents: (typeof folders_table.$inferSelect)[];
   currentFolderId: number;
+  rootFolder: (typeof folders_table.$inferSelect)[];
 }) {
-  const breadcrumbs: unknown[] = [];
-
   const navigate = useRouter();
 
   return (
@@ -23,10 +22,14 @@ export default function DriveContents(props: {
       <div className="mx-auto max-w-6xl">
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center">
-            <Link href="/f/1" className="mr-2 text-gray-300 hover:text-white">
+            {/* TODO: need to route to user's root folder, homepage doesn't get errored out */}
+            <Link
+              href={`/f/${props.rootFolder[0]?.id}`}
+              className="mr-2 text-gray-300 hover:text-white"
+            >
               My Drive
             </Link>
-            {props.parents.map((folder, index) => (
+            {props.parents.map((folder) => (
               <div key={folder.id} className="flex items-center">
                 <ChevronRight className="mx-2 text-gray-500" size={16} />
                 <Link
