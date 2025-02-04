@@ -33,7 +33,7 @@ export async function deleteFile(fileId: number) {
     .delete(files_table)
     .where(eq(files_table.id, fileId));
   console.log(dbDeleteResult);
-
+  // this is to make sure UI is updated after file is deleted
   const c = await cookies();
   c.set("force-refresh", JSON.stringify(Math.random()));
 

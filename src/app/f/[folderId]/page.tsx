@@ -20,7 +20,7 @@ export default async function GoogleDriveClone(props: {
     QUERIES.getFolders(parsedFolderId),
     QUERIES.getFiles(parsedFolderId),
     QUERIES.getAllParentsForFolder(parsedFolderId),
-    QUERIES.getRootFolder(session.userId),
+    QUERIES.getRootFolderForUser(session.userId),
   ]);
   return (
     <DriveContents

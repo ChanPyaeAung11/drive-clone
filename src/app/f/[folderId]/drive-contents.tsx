@@ -13,7 +13,7 @@ export default function DriveContents(props: {
   folders: (typeof folders_table.$inferSelect)[];
   parents: (typeof folders_table.$inferSelect)[];
   currentFolderId: number;
-  rootFolder: (typeof folders_table.$inferSelect)[];
+  rootFolder: typeof folders_table.$inferSelect | undefined;
 }) {
   const navigate = useRouter();
 
@@ -22,9 +22,8 @@ export default function DriveContents(props: {
       <div className="mx-auto max-w-6xl">
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center">
-            {/* TODO: need to route to user's root folder, homepage doesn't get errored out */}
             <Link
-              href={`/f/${props.rootFolder[0]?.id}`}
+              href={`/f/${props.rootFolder?.id}`}
               className="mr-2 text-gray-300 hover:text-white"
             >
               My Drive
@@ -54,8 +53,8 @@ export default function DriveContents(props: {
           <div className="border-b border-gray-700 px-6 py-4">
             <div className="grid grid-cols-12 gap-4 text-sm font-medium text-gray-400">
               <div className="col-span-6">Name</div>
-              <div className="col-span-2">Size</div>
-              <div className="col-span-3">Type</div>
+              <div className="col-span-2">Type</div>
+              <div className="col-span-3">Size</div>
               <div className="col-span-1"></div>
             </div>
           </div>
@@ -73,7 +72,20 @@ export default function DriveContents(props: {
           onClientUploadComplete={() => {
             navigate.refresh();
           }}
-          input={{ folderId: props.currentFolderId }}
+          onBeforeUploadBegin={(files) => {
+            return files.map((file) => {
+              const lastDotIdx = file.name.lastIndexOf(".");
+              const fileExtension =
+                lastDotIdx === -1 ? "blob" : file.name.slice(lastDotIdx + 1);
+              return new File([file], file.name, {
+                type: fileExtension,
+                lastModified: file.lastModified,
+              });
+            });
+          }}
+          input={{
+            folderId: props.currentFolderId,
+          }}
         />
       </div>
     </div>

@@ -16,14 +16,6 @@ export const QUERIES = {
       .where(eq(foldersSchema.parent, folderId))
       .orderBy(foldersSchema.id);
   },
-  getRootFolder: function (userId: string) {
-    return db
-      .select()
-      .from(foldersSchema)
-      .where(
-        and(eq(foldersSchema.ownerId, userId), isNull(foldersSchema.parent)),
-      );
-  },
   getFiles: function (folderId: number) {
     return db
       .select()
@@ -76,6 +68,7 @@ export const MUTATIONS = {
       size: number;
       url: string;
       parent: number;
+      type: string;
     };
     userId: string;
   }) {
