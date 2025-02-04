@@ -18,7 +18,7 @@ export default function DriveContents(props: {
   const navigate = useRouter();
 
   return (
-    <div className="min-h-screen bg-gray-900 p-8 text-gray-100">
+    <div className="max-h-screen p-8 text-gray-100">
       <div className="mx-auto max-w-6xl">
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center">
@@ -49,7 +49,7 @@ export default function DriveContents(props: {
             </SignedIn>
           </div>
         </div>
-        <div className="rounded-lg bg-gray-800 shadow-xl">
+        <div className="rounded-lg shadow-xl">
           <div className="border-b border-gray-700 px-6 py-4">
             <div className="grid grid-cols-12 gap-4 text-sm font-medium text-gray-400">
               <div className="col-span-6">Name</div>
@@ -68,6 +68,7 @@ export default function DriveContents(props: {
           </ul>
         </div>
         <UploadButton
+          className="mt-4"
           endpoint="driveUploader"
           onClientUploadComplete={() => {
             navigate.refresh();

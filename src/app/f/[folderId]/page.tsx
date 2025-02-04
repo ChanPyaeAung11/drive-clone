@@ -13,15 +13,24 @@ export default async function GoogleDriveClone(props: {
   console.log(params.folderId);
 
   const session = await auth();
-  if (!session.userId) redirect("/sign-in");
+  if (!session.userId) return redirect("/sign-in");
 
-  // try catch wrap this
-  const [folders, files, parents, rootFolder] = await Promise.all([
-    QUERIES.getFolders(parsedFolderId),
-    QUERIES.getFiles(parsedFolderId),
-    QUERIES.getAllParentsForFolder(parsedFolderId),
-    QUERIES.getRootFolderForUser(session.userId),
-  ]);
+  let folders, files, parents, rootFolder;
+  try {
+    [folders, files, parents, rootFolder] = await Promise.all([
+      QUERIES.getFolders(parsedFolderId, session.userId),
+      QUERIES.getFiles(parsedFolderId, session.userId),
+      QUERIES.getAllParentsForFolder(parsedFolderId, session.userId),
+      QUERIES.getRootFolderForUser(session.userId),
+    ]);
+  } catch (e) {
+    const error =
+      e instanceof Error
+        ? e
+        : new Error("Unknown error while fetching folder contents");
+    console.error("Folder contents fetch error:", e);
+    return <div>{error.message}</div>;
+  }
   return (
     <DriveContents
       files={files}
