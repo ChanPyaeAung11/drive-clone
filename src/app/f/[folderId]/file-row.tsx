@@ -1,5 +1,11 @@
-import { Folder as FolderIcon, FileIcon, Trash2Icon } from "lucide-react";
+import {
+  Folder as FolderIcon,
+  FileIcon,
+  Trash2Icon,
+  Loader2Icon,
+} from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 import { Button } from "~/components/ui/button";
 import { deleteFile, deleteFolder } from "~/server/actions";
 import type { files_table, folders_table } from "~/server/db/schema";
@@ -17,10 +23,23 @@ function formatFileSize(bytes: number): string {
 
 export function FileRow(props: { file: typeof files_table.$inferSelect }) {
   const { file } = props;
+
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    setIsDeleting(true);
+    try {
+      await deleteFile(file.id);
+    } catch (error) {
+      setIsDeleting(false);
+      return <div> Error deleting the file</div>;
+    }
+  };
+
   return (
     <li
       key={file.id}
-      className="hover:bg-gray-750 border-b border-gray-700 px-6 py-4"
+      className={`hover:bg-gray-750 border-b border-gray-700 px-6 py-4 ${isDeleting ? "bg-gray-800 opacity-50" : ""} `}
     >
       <div className="grid grid-cols-12 items-center gap-4">
         <div className="col-span-6 flex items-center">
@@ -40,10 +59,15 @@ export function FileRow(props: { file: typeof files_table.$inferSelect }) {
         <div className="col-span-1 text-gray-400">
           <Button
             variant="ghost"
-            onClick={() => deleteFile(file.id)}
+            onMouseDown={handleDelete}
+            disabled={isDeleting}
             aria-label="Delete file"
           >
-            <Trash2Icon size={20} />
+            {isDeleting ? (
+              <Loader2Icon size={20} className="animate-spin" />
+            ) : (
+              <Trash2Icon size={20} />
+            )}
           </Button>
         </div>
       </div>
@@ -55,10 +79,22 @@ export function FolderRow(props: {
   folder: typeof folders_table.$inferSelect;
 }) {
   const { folder } = props;
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    setIsDeleting(true);
+
+    try {
+      await deleteFolder(folder.id);
+    } catch (e) {
+      setIsDeleting(false);
+      return <div> Error deleting the folder</div>;
+    }
+  };
   return (
     <li
       key={folder.id}
-      className="hover:bg-gray-750 border-b border-gray-700 px-6 py-4"
+      className={`hover:bg-gray-750 border-b border-gray-700 px-6 py-4 ${isDeleting ? "bg-gray-800 opacity-50" : ""} ?`}
     >
       <div className="grid grid-cols-12 items-center gap-4">
         <div className="col-span-6 flex items-center">
@@ -75,10 +111,15 @@ export function FolderRow(props: {
         <div className="col-span-1 text-gray-400">
           <Button
             variant="ghost"
-            onClick={() => deleteFolder(folder.id)}
+            onMouseDown={handleDelete}
+            disabled={isDeleting}
             aria-label="Delete folder"
           >
-            <Trash2Icon size={20} />
+            {isDeleting ? (
+              <Loader2Icon size={20} className="animate-spin" />
+            ) : (
+              <Trash2Icon size={20} />
+            )}
           </Button>
         </div>
       </div>
