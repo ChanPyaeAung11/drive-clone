@@ -17,7 +17,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en" className={`${GeistSans.variable}`}>
         <PostHogProvider>
-          <body>{children}</body>
+          <body style={{ overscrollBehavior: "none" }}>{children}</body>
         </PostHogProvider>
       </html>
     </ClerkProvider>

@@ -30,6 +30,12 @@ export const QUERIES = {
       )
       .orderBy(filesSchema.id);
   },
+  getFileById: function (fileId: number, userId: string) {
+    return db
+      .select()
+      .from(filesSchema)
+      .where(and(eq(filesSchema.id, fileId), eq(filesSchema.ownerId, userId)));
+  },
 
   getAllParentsForFolder: async function (folderId: number, userId: string) {
     const parents = [];
@@ -71,6 +77,11 @@ export const QUERIES = {
 
     return folder[0];
   },
+  deleteFile: async function (fileId: number, userId: string) {
+    return db
+      .delete(filesSchema)
+      .where(and(eq(filesSchema.id, fileId), eq(filesSchema.ownerId, userId)));
+  },
 };
 
 export const MUTATIONS = {
@@ -88,6 +99,18 @@ export const MUTATIONS = {
       .insert(filesSchema)
       .values({ ...input.file, ownerId: input.userId });
   },
+  createFolder: async function (input: {
+    folder: {
+      name: string;
+      parent: number;
+    };
+    userId: string;
+  }) {
+    return await db
+      .insert(foldersSchema)
+      .values({ ...input.folder, ownerId: input.userId });
+  },
+
   onboardUser: async function (userId: string) {
     const rootFolder = await db
       .insert(foldersSchema)

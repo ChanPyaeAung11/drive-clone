@@ -38,6 +38,7 @@ export default async function GoogleDriveClone(props: {
       parents={parents}
       currentFolderId={parsedFolderId}
       rootFolder={rootFolder}
+      userId={session.userId}
     />
   );
 }

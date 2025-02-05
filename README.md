@@ -5,7 +5,7 @@
 - [ ] Folder deletions
       Make sure 2 fetch all of the folders that have it as a parent, and their children too
 
-- [ ]Folder creations
+- [x]Folder creations
   Make a server action that takes a name and parentId, and creates a folder with that name and parentId (don't forget to set the ownerId).
 
 - [x]Access control
