@@ -16,9 +16,9 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" className={`${GeistSans.variable}`}>
-        <head>
+        {/* <head>
           <script src="https://unpkg.com/react-scan/dist/auto.global.js"></script>
-        </head>
+        </head> */}
         <PostHogProvider>
           <body style={{ overscrollBehavior: "none" }}>{children}</body>
         </PostHogProvider>
