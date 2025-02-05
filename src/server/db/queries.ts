@@ -82,6 +82,40 @@ export const QUERIES = {
       .delete(filesSchema)
       .where(and(eq(filesSchema.id, fileId), eq(filesSchema.ownerId, userId)));
   },
+
+  deleteFolder: async function (folderId: number, userId: string) {
+    try {
+      await db.transaction(async (tx) => {
+        await tx
+          .delete(foldersSchema)
+          .where(
+            and(
+              eq(foldersSchema.ownerId, userId),
+              eq(foldersSchema.parent, folderId),
+            ),
+          );
+        await tx
+          .delete(filesSchema)
+          .where(
+            and(
+              eq(filesSchema.ownerId, userId),
+              eq(filesSchema.parent, folderId),
+            ),
+          );
+        await tx
+          .delete(foldersSchema)
+          .where(
+            and(
+              eq(foldersSchema.ownerId, userId),
+              eq(foldersSchema.id, folderId),
+            ),
+          );
+      });
+    } catch (e) {
+      console.error("Failed to delete folder:", e);
+      throw new Error("Failed to delete folder");
+    }
+  },
 };
 
 export const MUTATIONS = {

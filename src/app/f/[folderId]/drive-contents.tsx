@@ -81,6 +81,9 @@ export default function DriveContents(props: {
           },
         }}
         endpoint="driveUploader"
+        onClientUploadComplete={() => {
+          navigate.refresh();
+        }}
         onBeforeUploadBegin={(files) => {
           return files.map((file) => {
             const lastDotIdx = file.name.lastIndexOf(".");
