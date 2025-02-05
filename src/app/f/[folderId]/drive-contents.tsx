@@ -8,6 +8,7 @@ import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { UploadButton } from "~/components/uploadthing";
 import { useRouter } from "next/navigation";
 import { NewFolderButton } from "./new-folder";
+import { useState } from "react";
 
 export default function DriveContents(props: {
   files: (typeof files_table.$inferSelect)[];
@@ -17,10 +18,11 @@ export default function DriveContents(props: {
   rootFolder: typeof folders_table.$inferSelect | undefined;
   userId: string;
 }) {
+  const [uploading, setUploading] = useState(false);
   const navigate = useRouter();
 
   return (
-    <div className="h-auto w-auto p-8 text-gray-100">
+    <div className="p-8 text-gray-100">
       <div className="mb-6 flex items-center justify-between">
         <div className="flex items-center">
           <Link
@@ -41,12 +43,12 @@ export default function DriveContents(props: {
             </div>
           ))}
         </div>
-        <NewFolderButton
-          parentFolderId={props.currentFolderId}
-          userId={props.userId}
-        />
 
-        <div>
+        <div className="flex gap-5">
+          <NewFolderButton
+            parentFolderId={props.currentFolderId}
+            userId={props.userId}
+          />
           <SignedOut>
             <SignInButton />
           </SignedOut>
@@ -55,11 +57,11 @@ export default function DriveContents(props: {
           </SignedIn>
         </div>
       </div>
-      <div className="rounded-lg shadow-xl">
+      <div className="min-w-[75vw] flex-1 rounded-lg shadow-xl">
         <div className="border-b border-gray-700 px-6 py-4">
           <div className="grid grid-cols-12 gap-4 text-left text-sm font-medium text-gray-400">
             <div className="col-span-6">Name</div>
-            <div className="col-span-2">Type</div>
+            <div className="col-span-3">Type</div>
             <div className="col-span-2">Size</div>
             <div className="col-span-1"></div>
           </div>
@@ -74,17 +76,25 @@ export default function DriveContents(props: {
         </ul>
       </div>
       <UploadButton
-        className="mt-4"
+        className="ut-button:ut-ready:bg-green-500 ut-button:ut-readying:bg-red-500 ut-button:ut-uploading:bg-blue-500 mt-4"
         content={{
-          button({ ready }) {
-            if (ready) return "Upload File(s)";
+          button({ ready, isUploading }) {
+            if (isUploading) return <div>Uploading...</div>;
+            if (ready) return <div>Upload stuff</div>;
+            return "Getting ready...";
+          },
+          allowedContent({ ready, fileTypes, isUploading }) {
+            if (!ready) return "Checking what you allow";
+            if (isUploading) return "Seems like stuff is uploading";
           },
         }}
         endpoint="driveUploader"
         onClientUploadComplete={() => {
           navigate.refresh();
+          setUploading(false);
         }}
         onBeforeUploadBegin={(files) => {
+          setUploading(true);
           return files.map((file) => {
             const lastDotIdx = file.name.lastIndexOf(".");
             const fileExtension =

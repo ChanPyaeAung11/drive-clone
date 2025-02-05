@@ -52,8 +52,8 @@ export function FileRow(props: { file: typeof files_table.$inferSelect }) {
             {file.name}
           </a>
         </div>
-        <div className="col-span-2 text-gray-400">{file.type}</div>
-        <div className="col-span-3 text-gray-400">
+        <div className="col-span-3 text-gray-400">{file.type}</div>
+        <div className="col-span-2 text-gray-400">
           {formatFileSize(file.size)}
         </div>
         <div className="col-span-1 text-gray-400">
@@ -106,8 +106,8 @@ export function FolderRow(props: {
             {folder.name}
           </Link>
         </div>
-        <div className="col-span-2 text-gray-400">Folder</div>
-        <div className="col-span-3 text-gray-400"></div>
+        <div className="col-span-3 text-gray-400">Folder</div>
+        <div className="col-span-2 text-gray-400"></div>
         <div className="col-span-1 text-gray-400">
           <Button
             variant="ghost"
